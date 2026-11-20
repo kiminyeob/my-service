@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
-import { gsap, MOTION_OK, prefersReducedMotion, ScrollTrigger, useGSAP } from './lib/gsap';
+import { scrollToTarget } from './lib/gsap';
+import { SmoothContent, SmoothScroller } from './components/layout/SmoothScroll';
+import ScrollAnimations from './components/motion/ScrollAnimations';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import MobileCta from './components/layout/MobileCta';
@@ -17,25 +19,8 @@ import DownloadCta from './components/sections/DownloadCta';
 import Faq from './components/sections/Faq';
 
 export default function App() {
-  // 공통: 뷰포트에 들어오면 opacity 0 → 1, y 30 → 0 으로 순차 등장
-  useGSAP(() => {
-    const mm = gsap.matchMedia();
-    mm.add(MOTION_OK, () => {
-      gsap.set('[data-reveal]', { opacity: 0, y: 30 });
-      ScrollTrigger.batch('[data-reveal]', {
-        start: 'top 88%',
-        once: true,
-        onEnter: (batch) => gsap.to(batch, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.08, overwrite: true }),
-      });
-    });
-    return () => mm.revert();
-  });
-
   useEffect(() => {
-    // 글꼴이 로드되면 높이가 바뀌므로 스크롤 트리거 위치를 다시 계산
-    document.fonts?.ready.then(() => ScrollTrigger.refresh());
-
-    // 페이지 안 링크(#...)는 부드럽게 스크롤 (고정 내비게이션 높이만큼 띄움)
+    // 페이지 안 링크(#...)는 부드럽게 스크롤 (고정 내비게이션 아래에 맞춤)
     const onClick = (e: MouseEvent) => {
       const a = (e.target as Element).closest?.('a[href^="#"]');
       if (!a) return;
@@ -43,11 +28,7 @@ export default function App() {
       const target = hash === '#top' ? 0 : document.querySelector(hash);
       if (target === null) return;
       e.preventDefault();
-      gsap.to(window, {
-        scrollTo: { y: target, offsetY: 84, autoKill: true },
-        duration: prefersReducedMotion() ? 0 : 0.9,
-        ease: 'power3.inOut',
-      });
+      scrollToTarget(target);
       history.replaceState(null, '', hash);
     };
     document.addEventListener('click', onClick);
@@ -56,23 +37,30 @@ export default function App() {
 
   return (
     <>
+      {/* ScrollSmoother를 가장 먼저 만들기 위해 맨 앞에 둡니다 */}
+      <SmoothScroller />
+      {/* position: fixed 요소는 부드러운 스크롤 영역 바깥에 둡니다 */}
       <Header />
-      <main className="page">
-        <Hero />
-        <FeatureTabs />
-        <Numbers />
-        <IssuesShowcase />
-        <Steps />
-        <AiAccordion />
-        <AskSection />
-        <Transparency />
-        <Testimonials />
-        <Story />
-        <DownloadCta />
-        <Faq />
-        <Footer />
-      </main>
+      <SmoothContent>
+        <main className="page">
+          <Hero />
+          <FeatureTabs />
+          <Numbers />
+          <IssuesShowcase />
+          <Steps />
+          <AiAccordion />
+          <AskSection />
+          <Transparency />
+          <Testimonials />
+          <Story />
+          <DownloadCta />
+          <Faq />
+          <Footer />
+        </main>
+      </SmoothContent>
       <MobileCta />
+      {/* 공통 스크롤 애니메이션은 모든 섹션이 준비된 뒤에 만듭니다 */}
+      <ScrollAnimations />
     </>
   );
 }

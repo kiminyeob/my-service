@@ -287,7 +287,7 @@ export const testimonials = [
 
 export const maker = {
   quote: '그때 필요했던 것은 내 업무와 관련된 소식을 골라 주는 누군가였습니다.',
-  name: '민서진',
+  name: '○○○',
   role: '틈틈을 만든 사람 · 서비스 기획자',
 };
 

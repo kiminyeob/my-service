@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ComponentType } from 'react';
 import { steps } from '../../data/content';
-import { clamp01, easeOutCubic, useInView, useMediaQuery, useScrollProgress } from '../../hooks/motion';
+import { clamp01, easeOutCubic, useInView, useMediaQuery } from '../../hooks/motion';
+import { navOffset, ScrollTrigger, useGSAP } from '../../lib/gsap';
 import { Section } from '../ui';
 import WordReveal from '../motion/WordReveal';
 import { BriefingHomeScreen, IssueSelectScreen, PhoneFrame, RoleSelectScreen } from '../phone/PhoneScreens';
@@ -29,10 +30,25 @@ const RISE_END = 0.22;
 const stepAt = (p: number) => (p < 0.5 ? 0 : p < 0.76 ? 1 : 2);
 
 function StepsPinned() {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const progress = useScrollProgress(trackRef);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState(0);
   const rise = easeOutCubic(clamp01(progress / RISE_END));
   const active = stepAt(progress);
+
+  // 무대를 내비게이션 아래에 고정하고, 화면 높이의 2.2배를 스크롤하는 동안 진행도를 0 → 1로 넘깁니다.
+  // (ScrollSmoother 안에서는 CSS sticky가 동작하지 않아 ScrollTrigger pin을 씁니다)
+  useGSAP(() => {
+    const st = ScrollTrigger.create({
+      trigger: stageRef.current,
+      start: () => `top top+=${navOffset()}`,
+      end: () => `+=${window.innerHeight * 2.2}`,
+      pin: true,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      onUpdate: (self) => setProgress(self.progress),
+    });
+    return () => st.kill();
+  });
 
   const phoneStyle = {
     transform: `translateY(${(1 - rise) * 110}vh) scale(${0.88 + 0.12 * rise})`,
@@ -40,8 +56,8 @@ function StepsPinned() {
 
   return (
     <section id="how" className="panel panel--white panel--overlap steps-pin">
-      <div ref={trackRef} className="steps-pin__track">
-        <div className="steps-pin__stage">
+      <div className="steps-pin__track">
+        <div ref={stageRef} className="steps-pin__stage">
           <div className="container steps-pin__inner">
             <WordReveal text={TITLE} className="display" />
             <div className="steps-pin__body">

@@ -32,9 +32,15 @@ export default function FeatureTabs() {
     { dependencies: [active], scope: cardRef },
   );
 
+  // 고른 탭을 탭 줄 가운데로 (가로로 넘치는 휴대폰 화면용).
+  // scrollIntoView는 ScrollSmoother의 고정 래퍼까지 스크롤해 화면이 어긋나므로, 탭 줄만 가로로 움직입니다.
   const select = (i: number) => {
     setActive(i);
-    tabRefs.current[i]?.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+    const tab = tabRefs.current[i];
+    const bar = tab?.parentElement;
+    if (tab && bar && bar.scrollWidth > bar.clientWidth) {
+      bar.scrollTo({ left: tab.offsetLeft - (bar.clientWidth - tab.offsetWidth) / 2, behavior: 'smooth' });
+    }
   };
 
   // 메가메뉴에서 기능을 고르면 해당 탭을 엽니다

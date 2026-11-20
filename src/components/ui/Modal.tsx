@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, type ReactNode } from 'react';
-import { gsap, prefersReducedMotion } from '../../lib/gsap';
+import { gsap, prefersReducedMotion, ScrollSmoother } from '../../lib/gsap';
 import Icon from './Icon';
 
 type Props = {
@@ -22,9 +22,16 @@ export default function Modal({ open, onClose, title, size = 'sm', tone = 'light
     const panel = dialog.querySelector('.modal__panel');
     const d = prefersReducedMotion() ? 0 : 1;
 
+    // 열려 있는 동안 뒤 페이지 스크롤을 멈춤 (부드러운 스크롤이 켜져 있으면 그것을 멈춤)
+    const lockScroll = (lock: boolean) => {
+      const smoother = ScrollSmoother.get();
+      if (smoother) smoother.paused(lock);
+      else document.documentElement.classList.toggle('is-modal-open', lock);
+    };
+
     if (open && !dialog.open) {
       dialog.showModal();
-      document.documentElement.classList.add('is-modal-open');
+      lockScroll(true);
       gsap.fromTo(dialog, { opacity: 0 }, { opacity: 1, duration: 0.2 * d });
       gsap.fromTo(panel, { y: 28, scale: 0.97 }, { y: 0, scale: 1, duration: 0.35 * d, ease: 'power3.out' });
     } else if (!open && dialog.open) {
@@ -34,7 +41,7 @@ export default function Modal({ open, onClose, title, size = 'sm', tone = 'light
         duration: 0.18 * d,
         onComplete: () => {
           dialog.close();
-          document.documentElement.classList.remove('is-modal-open');
+          lockScroll(false);
         },
       });
     }

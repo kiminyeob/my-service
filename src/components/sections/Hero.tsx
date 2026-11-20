@@ -57,7 +57,8 @@ export default function Hero() {
           </span>
         </div>
 
-        <div className="hero__visual" aria-hidden="true">
+        {/* clamp(): 첫 화면에서는 제자리에서 시작하고, 내려갈수록 글보다 천천히 움직임 */}
+        <div className="hero__visual" aria-hidden="true" data-speed="clamp(0.88)">
           <div className="hero__glow" />
           <div className="hero__phone">
             <PhoneFrame>

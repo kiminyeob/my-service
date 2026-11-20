@@ -36,9 +36,10 @@ export default function Numbers() {
       <div className="container stack-40">
         <SectionHead title="AI 변화에 대한 불안은 크지만, 무엇을 봐야 하는지 알려 주는 곳은 드뭅니다" />
         <div className="numbers">
-          {stats.map((s) => (
+          {stats.map((s, i) => (
             <div key={s.body} className="number" data-reveal>
-              <span className="number__value">
+              {/* 숫자마다 조금씩 늦게 따라오는 물결 */}
+              <span className="number__value" data-lag={0.1 + i * 0.12}>
                 <span data-count={s.value}>{s.value}</span>
                 <span className="number__suffix">{s.suffix}</span>
               </span>

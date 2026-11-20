@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { features, languages, navLinks } from '../../data/content';
-import { gsap, MOTION_OK, ScrollTrigger, useGSAP } from '../../lib/gsap';
+import { gsap, MOTION_OK, ScrollSmoother, ScrollTrigger, useGSAP } from '../../lib/gsap';
 import { ButtonLink, Icon, LogoMark } from '../ui';
 import Modal from '../ui/Modal';
 
@@ -90,7 +90,10 @@ export default function Header() {
       } else {
         gsap.to(drawer, { autoAlpha: 0, clipPath: 'inset(0% 0% 100% 0% round 0px)', duration: motion ? 0.3 : 0, ease: 'power3.in' });
       }
-      document.documentElement.classList.toggle('is-menu-open', menuOpen);
+      // 메뉴가 열려 있는 동안 뒤 페이지가 스크롤되지 않게 함
+      const smoother = ScrollSmoother.get();
+      if (smoother) smoother.paused(menuOpen);
+      else document.documentElement.classList.toggle('is-menu-open', menuOpen);
     },
     { dependencies: [menuOpen] },
   );
@@ -202,6 +205,11 @@ export default function Header() {
             <span />
           </button>
         </div>
+      </div>
+
+      {/* 페이지를 읽은 정도 (ScrollAnimations에서 scrub) */}
+      <div className="nav__progress" aria-hidden="true">
+        <span />
       </div>
 
       {/* 메가메뉴 */}

@@ -368,15 +368,16 @@
   position: absolute;
   z-index: 2;
 }
+/* 폰(가운데) 바깥쪽에 두고 테두리에만 살짝 걸치게 — 상태바·화면 내용을 가리지 않음 */
 .hero__float--a {
-  top: 12%;
-  left: 0;
-  width: 230px;
+  top: 30%;
+  left: -48px;
+  width: 210px;
 }
 .hero__float--b {
-  bottom: 14%;
-  right: 0;
-  width: 240px;
+  bottom: 16%;
+  right: -48px;
+  width: 220px;
 }
 
 .ui-card {
@@ -1648,13 +1649,18 @@
   .hero__phone .phone {
     --phone-w: 272px;
   }
+  /* 휴대폰 화면: 양옆 여유가 없어 두 카드를 폰 아래쪽(띠에 가려지는 부분)에 나란히 붙임 */
+  .hero__float--a,
+  .hero__float--b {
+    top: auto;
+    bottom: 76px;
+    width: calc(50% - 6px);
+  }
   .hero__float--a {
-    width: 190px;
-    top: 6%;
+    left: 0;
   }
   .hero__float--b {
-    width: 196px;
-    bottom: 10%;
+    right: 0;
   }
   .ui-card {
     padding: 12px;

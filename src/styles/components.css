@@ -917,12 +917,8 @@
 .panel.steps-pin {
   padding: 0;
 }
-.steps-pin__track {
-  height: 320vh;
-}
+/* 무대는 ScrollTrigger pin 으로 내비게이션 아래에 고정됩니다 (Steps.tsx). 스크롤 길이는 pin 이 만들어 줍니다. */
 .steps-pin__stage {
-  position: sticky;
-  top: calc(var(--nav-h) + var(--page-gap));
   height: calc(100vh - var(--nav-h) - var(--page-gap) * 2);
   overflow: clip;
   display: flex;
@@ -1106,4 +1102,34 @@
   .btn:hover svg {
     transform: none;
   }
+}
+
+/* =========================================================
+   Scroll animation helpers
+   ========================================================= */
+
+/* SplitText 줄 마스크: 글자가 줄 아래에서 밀려 올라옴. 그라디언트 강조·밑줄이 잘리지 않도록 여유 */
+.split-line {
+  padding-bottom: 0.06em;
+}
+
+/* 페이지를 읽은 정도 (내비게이션 아래 가는 막대) */
+.nav__progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  pointer-events: none;
+}
+.nav__progress > span {
+  display: block;
+  height: 100%;
+  background: var(--color-amber);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.story__mark-inner {
+  display: inline-flex;
 }

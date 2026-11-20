@@ -4,7 +4,9 @@ export default function Story() {
   return (
     <Section id="story" tone="surface" innerClassName="story">
       <div className="story__mark" data-reveal>
-        <LogoMark size={88} label="틈틈 심벌" />
+        <span className="story__mark-inner" data-speed="0.82">
+          <LogoMark size={88} label="틈틈 심벌" />
+        </span>
       </div>
       <div className="story__copy">
         <span className="eyebrow" data-reveal>
