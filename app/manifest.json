@@ -1,0 +1,31 @@
+{
+  "id": "/my-service/app/",
+  "name": "틈틈: AI 이슈 브리핑",
+  "short_name": "틈틈",
+  "description": "내 업무와 관련된 AI 소식만 골라, 매주 직무의 관점으로 설명하는 브리핑",
+  "lang": "ko",
+  "start_url": "/my-service/app/",
+  "scope": "/my-service/app/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#E8ECF2",
+  "background_color": "#E8ECF2",
+  "icons": [
+    {
+      "src": "/my-service/app/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/my-service/app/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/my-service/app/icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>틈틈: AI 이슈 브리핑</title>
+    <meta name="description" content="내 업무와 관련된 AI 소식만 골라, 매주 직무의 관점으로 설명하는 브리핑" />
+
+    <!-- 설치형 웹앱(PWA): 홈 화면에 추가하면 주소창 없이 전체 화면으로 열립니다 -->
+    <meta name="theme-color" content="#E8ECF2" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="틈틈" />
+    <!-- manifest·아이콘·서비스 워커 연결은 배포 경로에 맞춰 scripts/build-web.mjs 가 여기에 넣습니다 -->
+    <link rel="manifest" href="/my-service/app/manifest.json" />
+    <link rel="apple-touch-icon" href="/my-service/app/icons/apple-touch-icon.png" />
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('/my-service/app/sw.js', { scope: '/my-service/app/' }).catch(function (e) {
+            console.warn('service worker registration failed', e);
+          });
+        });
+      }
+    </script>
+
+    <!-- The `react-native-web` recommended style reset: https://necolas.github.io/react-native-web/docs/setup/#root-element -->
+    <style id="expo-reset">
+      html,
+      body {
+        height: 100%;
+        background: #e8ecf2;
+      }
+      body {
+        overflow: hidden;
+        overscroll-behavior: none;
+        /* 한국어는 낱말 단위로 줄바꿈 */
+        word-break: keep-all;
+        overflow-wrap: anywhere;
+        -webkit-tap-highlight-color: transparent;
+      }
+      /* 입력칸 테두리로 포커스를 보여 주므로 브라우저 기본 표시는 끕니다 (Field 컴포넌트) */
+      input:focus,
+      textarea:focus {
+        outline: none;
+      }
+      /* Edge 의 비밀번호 보기 버튼은 앱 자체 버튼과 겹치므로 숨김 */
+      input::-ms-reveal,
+      input::-ms-clear {
+        display: none;
+      }
+      #root {
+        display: flex;
+        height: 100%;
+        flex: 1;
+      }
+    </style>
+  <meta name="theme-color" content="#E8ECF2">
+<link rel="icon" href="/my-service/app/favicon.ico"/><link rel="preload" href="/my-service/app/_expo/static/css/native-tabs.module-78b0f59737571f455720970791a36bdd.css" as="style">
+<link rel="stylesheet" href="/my-service/app/_expo/static/css/native-tabs.module-78b0f59737571f455720970791a36bdd.css"></head>
+
+  <body>
+    <noscript>틈틈을 쓰려면 JavaScript를 켜 주세요.</noscript>
+    <div id="root"></div>
+  <script src="/my-service/app/_expo/static/js/web/__expo-metro-runtime-9f1a7b6acd20011e290bc79f0164ae37.js" defer></script><script src="/my-service/app/_expo/static/js/web/__common-d6d2c35152bf32635f0daa4e2f81ff4f.js" defer></script><script src="/my-service/app/_expo/static/js/web/entry-04b436a801441f490a554ed7c7c9c9e3.js" defer></script>
+</body>
+</html>
