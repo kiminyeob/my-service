@@ -458,21 +458,90 @@
    Phone mockup
    ========================================================= */
 
+/*
+ * 실사 프레임(src/assets/phone-frame.png, 727×1456) 위에 HTML 화면을 겹칩니다.
+ * 화면 구멍의 위치·크기·모서리는 프레임 대비 비율로 계산한 값입니다 (scratch make_frame.py 결과).
+ * .phone 은 너비만 정하면 프레임 비율대로 높이가 정해집니다 — height 를 따로 주지 마세요.
+ */
 .phone {
+  --phone-w: 256px;
   position: relative;
-  width: 248px;
+  width: var(--phone-w);
   max-width: 100%;
-  height: 470px;
-  border: 8px solid var(--color-navy);
-  border-radius: 38px;
-  background: var(--color-surface);
+  aspect-ratio: 727 / 1456;
+  flex-shrink: 0;
   color: var(--color-navy);
+  container-type: inline-size; /* 상태바 글자·아이콘을 폰 크기에 맞춰 비례 조정 */
+  /* 프레임 윤곽을 따라가는 그림자. 너무 크면 스크롤 영역에서 잘려 사각형처럼 보이므로 작게 유지 */
+  filter: drop-shadow(0 16px 18px rgba(11, 16, 32, 0.22)) drop-shadow(0 3px 5px rgba(11, 16, 32, 0.16));
+}
+.phone__display {
+  position: absolute;
+  left: 4.952%;
+  top: 2.06%;
+  width: 90.234%;
+  height: 95.879%;
+  border-radius: 14.939% / 7.02%;
+  overflow: hidden;
+  background: var(--color-surface);
+  display: flex;
+  flex-direction: column;
+}
+.phone__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  user-select: none;
+}
+.phone__content {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  flex-shrink: 0;
-  box-shadow: 0 30px 60px -30px rgba(24, 35, 63, 0.45);
 }
+
+/* iOS 상태바: 높이 = 아일랜드 세로 중심(화면 높이의 3.546%) × 2 → 내용이 아일랜드와 같은 높이에 정렬 */
+.statusbar {
+  flex: 0 0 7.09%;
+  display: grid;
+  grid-template-columns: 1fr 34% 1fr;
+  align-items: center;
+  background: #ffffff;
+  color: #0b0f19;
+}
+.statusbar__time {
+  justify-self: center;
+  padding-left: 6%;
+  font-size: 14px;
+  font-size: 5.6cqw;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.statusbar__icons {
+  justify-self: center;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  gap: 1.8cqw;
+  padding-right: 6%;
+}
+.statusbar__icons svg {
+  display: block;
+  height: 11px;
+  height: 4.3cqw;
+  width: auto;
+  fill: currentColor;
+}
+.statusbar__battery {
+  height: 12px;
+  height: 4.7cqw;
+}
+
 .phone__screen {
   position: absolute;
   inset: 0;
@@ -875,16 +944,14 @@
   will-change: transform;
 }
 .steps-pin__phone .phone {
-  width: 280px;
-  height: 530px;
+  --phone-w: 280px;
 }
 @media (max-height: 820px) {
   .steps-pin__inner {
     gap: 24px;
   }
   .steps-pin__phone .phone {
-    width: 248px;
-    height: 470px;
+    --phone-w: 256px;
   }
 }
 .steps-pin__side {
@@ -996,14 +1063,19 @@
 }
 
 @media (max-width: 720px) {
+  /* 옆으로 넘기기. 스크롤 영역이 폰 그림자를 자르지 않도록 위·아래·양옆에 여백을 두고 같은 만큼 바깥으로 넓힘 */
   .steps {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
+    scroll-padding-left: var(--gutter);
     gap: 16px;
-    margin-right: calc(var(--gutter) * -1);
-    padding-right: var(--gutter);
+    margin: -24px calc(var(--gutter) * -1) -40px;
+    padding: 24px var(--gutter) 40px;
     scrollbar-width: none;
+  }
+  .step .phone {
+    --phone-w: 272px;
   }
   .steps::-webkit-scrollbar {
     display: none;

@@ -362,10 +362,7 @@
   margin-bottom: -60px;
 }
 .hero__phone .phone {
-  width: 290px;
-  height: 590px;
-  border-width: 10px;
-  border-radius: 46px;
+  --phone-w: 300px;
 }
 .hero__float {
   position: absolute;
@@ -616,8 +613,7 @@
   margin-bottom: -40px;
 }
 .feature-card__phone .phone {
-  width: 270px;
-  height: 520px;
+  --phone-w: 280px;
 }
 
 /* =========================================================
@@ -1647,11 +1643,10 @@
     padding-top: 40px;
   }
   .hero__visual {
-    height: 470px;
+    height: 500px;
   }
   .hero__phone .phone {
-    width: 230px;
-    height: 470px;
+    --phone-w: 272px;
   }
   .hero__float--a {
     width: 190px;
@@ -1688,8 +1683,7 @@
     padding: 28px 22px 0;
   }
   .feature-card__phone .phone {
-    width: 240px;
-    height: 460px;
+    --phone-w: 256px;
   }
 
   .numbers {
