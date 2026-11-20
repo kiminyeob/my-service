@@ -15,12 +15,12 @@ export default function Hero() {
         const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
         tl.from('[data-hero]', { opacity: 0, y: 30, duration: 0.8, stagger: 0.08 })
           .from('.hero__phone', { opacity: 0, y: 80, scale: 0.94, duration: 1 }, 0.15)
-          .from('.hero__float', { opacity: 0, scale: 0.85, y: 24, duration: 0.7, stagger: 0.12 }, 0.55)
-          .from('.hero__sparkle', { opacity: 0, scale: 0, rotate: -90, duration: 0.6, stagger: 0.08 }, 0.7)
-          .from('.marquee', { opacity: 0, y: 20, duration: 0.6 }, 0.8);
+          // 떠 있는 카드·별은 폰과 거의 함께 나타나게 (늦게 튀어나오면 화면이 덜컥거림). 띠 배너는 처음부터 보임
+          .from('.hero__float', { opacity: 0, y: 16, duration: 0.6, stagger: 0.08 }, 0.25)
+          .from('.hero__sparkle', { opacity: 0, scale: 0, duration: 0.5, stagger: 0.06 }, 0.3);
 
-        gsap.to('.hero__float--a', { y: -10, duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.3 });
-        gsap.to('.hero__float--b', { y: 10, duration: 3.1, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.5 });
+        gsap.to('.hero__float--a', { y: -10, duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1 });
+        gsap.to('.hero__float--b', { y: 10, duration: 3.1, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.1 });
         gsap.utils.toArray<HTMLElement>('.hero__sparkle').forEach((el, i) => {
           gsap.to(el, { scale: 0.55, opacity: 0.4, rotate: 45, duration: 1.4 + i * 0.3, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.4 + i * 0.2 });
         });
@@ -46,7 +46,7 @@ export default function Hero() {
           </p>
           <div className="button-row" data-hero>
             <ButtonLink href="#download">
-              무료로 시작하기 <Icon name="arrowRight" size={18} />
+              앱 받기 <Icon name="arrowRight" size={18} />
             </ButtonLink>
             <ButtonLink href="#features" variant="outline">
               기능 둘러보기
@@ -57,8 +57,7 @@ export default function Hero() {
           </span>
         </div>
 
-        {/* clamp(): 첫 화면에서는 제자리에서 시작하고, 내려갈수록 글보다 천천히 움직임 */}
-        <div className="hero__visual" aria-hidden="true" data-speed="clamp(0.88)">
+        <div className="hero__visual" aria-hidden="true">
           <div className="hero__glow" />
           <div className="hero__phone">
             <PhoneFrame>
@@ -99,7 +98,7 @@ export default function Hero() {
               </div>
               <div className="issue-meter__row">
                 <span>AI와 일자리</span>
-                <span className="issue-meter__quiet">변화 없음</span>
+                <span className="issue-meter__quiet">지나가는 소식</span>
               </div>
               <div className="issue-meter__bar">
                 <span style={{ width: '14%' }} />
@@ -110,7 +109,6 @@ export default function Hero() {
           <Sparkle size={26} className="hero__sparkle hero__sparkle--1" />
           <Sparkle size={16} className="hero__sparkle hero__sparkle--2" />
           <Sparkle size={20} className="hero__sparkle hero__sparkle--3" />
-          <Sparkle size={12} className="hero__sparkle hero__sparkle--4" />
         </div>
       </div>
 

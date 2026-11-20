@@ -6,7 +6,6 @@
 
 body {
   margin: 0;
-  padding-top: calc(var(--nav-h) + var(--page-gap));
   background: var(--color-page);
   color: var(--color-text);
   font-family: var(--font-sans);

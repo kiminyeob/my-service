@@ -19,18 +19,23 @@ export const navOffset = () => {
   return (nav?.offsetHeight ?? 72) + gap;
 };
 
+/** 코드로 일으킨 스크롤 시각 — 섹션 스냅이 그 직후에는 끼어들지 않도록 */
+export const scrollState = { lastProgrammatic: 0 };
+
 /**
  * 페이지 안 위치로 스크롤. ScrollSmoother가 켜져 있으면 그것으로, 아니면 window 스크롤로 이동합니다.
- * target: 0(맨 위) 또는 요소
+ * target: 요소(내비게이션 아래에 맞춤) 또는 스크롤 위치(px)
  */
-export function scrollToTarget(target: Element | 0) {
+export function scrollToTarget(target: Element | number) {
+  scrollState.lastProgrammatic = performance.now();
   const smoother = ScrollSmoother.get();
   if (smoother) {
-    smoother.scrollTo(target, true, target === 0 ? undefined : `top ${navOffset()}px`);
+    if (typeof target === 'number') smoother.scrollTo(target, true);
+    else smoother.scrollTo(target, true, `top ${navOffset()}px`);
     return;
   }
   gsap.to(window, {
-    scrollTo: { y: target, offsetY: navOffset(), autoKill: true },
+    scrollTo: { y: target, offsetY: typeof target === 'number' ? 0 : navOffset(), autoKill: true },
     duration: prefersReducedMotion() ? 0 : 0.9,
     ease: 'power3.inOut',
   });

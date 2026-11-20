@@ -49,6 +49,7 @@ export default function Footer() {
       <div className="container footer__bottom">
         <span>틈틈: AI 이슈 브리핑</span>
         <span>모든 브리핑은 AI가 작성하고 AI가 검토합니다.</span>
+        <span>이용약관·개인정보 처리방침·문의 창구는 준비 중입니다.</span>
       </div>
     </footer>
   );

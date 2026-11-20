@@ -2,11 +2,12 @@
    Page & panels — 밝은 배경 위에 둥근 섹션 카드가 쌓이는 구조
    ========================================================= */
 
+/* 위쪽 여백 = 고정 내비게이션 높이. body가 아니라 여기에 둬야 ScrollSmoother(고정된 래퍼 안의 내용)에도 적용됨 */
 .page {
   display: flex;
   flex-direction: column;
   gap: var(--page-gap);
-  padding: 0 var(--page-gap) var(--page-gap);
+  padding: calc(var(--nav-h) + var(--page-gap)) var(--page-gap) var(--page-gap);
 }
 
 .panel {
@@ -495,6 +496,10 @@
   pointer-events: none;
   user-select: none;
 }
+/* 목업은 그림일 뿐이므로 안의 칩·토글 등이 눌릴 것처럼 반응하지 않게 */
+.phone__display {
+  pointer-events: none;
+}
 .phone__content {
   position: relative;
   flex: 1 1 auto;
@@ -542,13 +547,17 @@
   height: 4.7cqw;
 }
 
+/* 화면 전환: 나가는 화면이 먼저 사라진 뒤 들어오는 화면이 나타나 두 장이 겹쳐 보이지 않게 */
 .phone__screen {
   position: absolute;
   inset: 0;
   display: flex;
   flex-direction: column;
   background: var(--color-surface);
-  transition: opacity 0.45s ease, transform 0.55s var(--ease-out);
+  transition: opacity 0.18s ease, transform 0.3s var(--ease-out);
+}
+.phone__screen.is-active {
+  transition: opacity 0.3s ease 0.16s, transform 0.45s var(--ease-out) 0.16s;
 }
 .phone__screen.is-next {
   opacity: 0;
@@ -620,9 +629,26 @@
   padding: 8px 13px;
   border-radius: var(--radius-pill);
 }
+/* 한 줄로 이어지는 칩 (직무 8개: 오른쪽으로 더 있음을 흐리게 표시) */
+.phone__chips--row {
+  flex-wrap: nowrap;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, #000 80%, transparent);
+  mask-image: linear-gradient(90deg, #000 80%, transparent);
+}
+.phone__chips--row .phone-chip {
+  flex-shrink: 0;
+}
+/* 요일 7개를 한 줄에 */
+.phone__chips--days {
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  gap: 4px;
+}
 .phone-chip--day {
-  width: 30px;
-  height: 30px;
+  flex: 1 1 0;
+  max-width: 30px;
+  aspect-ratio: 1;
   padding: 0;
   display: inline-flex;
   align-items: center;
@@ -933,6 +959,7 @@
 .steps-pin__body {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 72px;
 }
 .steps-pin__phone {
@@ -953,7 +980,7 @@
 .steps-pin__side {
   flex: 1 1 auto;
   min-width: 0;
-  max-width: 480px;
+  max-width: 540px;
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -963,10 +990,25 @@
   flex-direction: column;
   gap: 22px;
 }
+.pin-step__heading {
+  margin: 0;
+  font: inherit;
+}
+/* 단계 제목은 버튼: 누르면 그 단계로 이동 */
 .pin-step__head {
   display: flex;
   align-items: center;
   gap: 12px;
+  width: 100%;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  color: inherit;
+}
+.pin-step__head:hover .pin-step__title {
+  color: var(--color-navy);
 }
 .pin-step__num {
   width: 40px;
@@ -1142,4 +1184,18 @@
   background: linear-gradient(transparent 58%, rgba(240, 165, 0, 0.45) 58%);
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
+}
+
+/* 기능 탭 폰: 실제 앱이 아니라 화면 예시임을 표시 */
+.mock-label {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-muted);
 }

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type ComponentType } from 'react';
 import { steps } from '../../data/content';
 import { clamp01, easeOutCubic, useInView, useMediaQuery } from '../../hooks/motion';
-import { navOffset, ScrollTrigger, useGSAP } from '../../lib/gsap';
+import { navOffset, ScrollTrigger, scrollToTarget, useGSAP } from '../../lib/gsap';
 import { Section } from '../ui';
 import WordReveal from '../motion/WordReveal';
 import { BriefingHomeScreen, IssueSelectScreen, PhoneFrame, RoleSelectScreen } from '../phone/PhoneScreens';
@@ -27,6 +27,14 @@ export default function Steps() {
 
 // 고정 구간을 3등분해 단계를 넘김. 섹션 스냅(ScrollAnimations)은 고정 시작점과 2·3단계 구간 가운데에 맞춤.
 const stepAt = (p: number) => (p < 1 / 3 ? 0 : p < 2 / 3 ? 1 : 2);
+// 단계 버튼을 누르면 이동할 고정 구간 안의 위치 (섹션 스냅의 단계 위치와 같음)
+const STEP_POS = [0, 0.5, 0.84];
+const PIN_LENGTH = 1.5; // 고정 구간 길이 (화면 높이의 배수)
+
+function goToStep(i: number) {
+  const st = ScrollTrigger.getById('steps-pin');
+  if (st) scrollToTarget(st.start + (st.end - st.start) * STEP_POS[i]);
+}
 
 function StepsPinned() {
   const stageRef = useRef<HTMLDivElement>(null);
@@ -50,7 +58,7 @@ function StepsPinned() {
       id: 'steps-pin', // ScrollAnimations의 섹션 스냅이 단계 위치를 계산할 때 사용
       trigger: stageRef.current,
       start: () => `top top+=${navOffset()}`,
-      end: () => `+=${window.innerHeight * 2.2}`,
+      end: () => `+=${window.innerHeight * PIN_LENGTH}`,
       pin: true,
       anticipatePin: 1,
       invalidateOnRefresh: true,
@@ -90,10 +98,17 @@ function StepsPinned() {
               <ol className="steps-pin__list">
                 {steps.map((step, i) => (
                   <li key={step.title} className={`pin-step${i === active ? ' is-active' : ''}`}>
-                    <div className="pin-step__head">
-                      <span className="pin-step__num">{i + 1}</span>
-                      <h3 className="pin-step__title">{step.title}</h3>
-                    </div>
+                    <h3 className="pin-step__heading">
+                      <button
+                        type="button"
+                        className="pin-step__head"
+                        aria-current={i === active ? 'step' : undefined}
+                        onClick={() => goToStep(i)}
+                      >
+                        <span className="pin-step__num">{i + 1}</span>
+                        <span className="pin-step__title">{step.title}</span>
+                      </button>
+                    </h3>
                     <div className="pin-step__detail">
                       <p className="pin-step__body">{step.body}</p>
                     </div>

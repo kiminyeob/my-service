@@ -43,11 +43,11 @@ export default function FeatureTabs() {
     }
   };
 
-  // 메가메뉴에서 기능을 고르면 해당 탭을 엽니다
+  // 메가메뉴·휴대폰 메뉴에서 기능을 고르면 해당 탭을 엽니다 (탭 줄도 그 탭이 보이게 이동)
   useEffect(() => {
     const onSelect = (e: Event) => {
       const i = features.findIndex((ft) => ft.key === (e as CustomEvent<string>).detail);
-      if (i >= 0) setActive(i);
+      if (i >= 0) select(i);
     };
     window.addEventListener('select-feature', onSelect);
     return () => window.removeEventListener('select-feature', onSelect);
@@ -79,7 +79,7 @@ export default function FeatureTabs() {
           lead="바빠서 소식을 따라가기 어려운 직장인을 위해, 고르고 설명하고 근거를 붙이는 일을 대신합니다."
         />
 
-        <div className="tabs" role="tablist" aria-label="기능" onKeyDown={onKeyDown} data-reveal>
+        <div id="feature-tabs" className="tabs" role="tablist" aria-label="기능" onKeyDown={onKeyDown} data-reveal>
           {features.map((ft, i) => (
             <button
               key={ft.key}
@@ -135,6 +135,7 @@ export default function FeatureTabs() {
             </div>
           </div>
           <div className="feature-card__visual" aria-hidden="true">
+            <span className="mock-label">앱 화면 예시</span>
             <div className="feature-card__phone">
               <PhoneFrame>
                 <FeatureScreen feature={f.key} />

@@ -1,22 +1,15 @@
-import { maker } from '../../data/content';
-import { Icon, PlaceholderTag, Section, withBrand } from '../ui';
+import { Icon, Section } from '../ui';
 
+// 스토어 주소가 생기면 각 항목에 href를 넣고 카드를 링크(<a>)로 바꿉니다.
 const stores = [
-  { icon: 'apple' as const, os: 'iPhone', store: 'App Store에서 받기' },
-  { icon: 'android' as const, os: 'Android', store: 'Google Play에서 받기' },
+  { icon: 'apple' as const, os: 'iPhone', store: 'App Store' },
+  { icon: 'android' as const, os: 'Android', store: 'Google Play' },
 ];
 
 export default function DownloadCta() {
   return (
     <Section id="download" tone="white" innerClassName="cta">
-      <figure className="cta__quote" data-reveal>
-        <PlaceholderTag />
-        <blockquote>“{maker.quote}”</blockquote>
-        <figcaption>
-          {maker.name} · {withBrand(maker.role)}
-        </figcaption>
-      </figure>
-
+      {/* 만든 사람 인용은 실제 이름·문구가 정해지면 다시 넣습니다 (content.ts의 maker) */}
       <h2 className="display display--xl cta__title" data-reveal>
         첫 브리핑을 받아 보세요
       </h2>
@@ -26,16 +19,13 @@ export default function DownloadCta() {
 
       <div className="store-cards">
         {stores.map((s) => (
-          <a key={s.os} href="#download" className="store-card" data-reveal>
+          <div key={s.os} className="store-card" data-reveal>
             <span className="store-card__icon">
               <Icon name={s.icon} size={28} />
             </span>
             <span className="store-card__os">{s.os}</span>
-            <span className="store-card__store">{s.store}</span>
-            <span className="store-card__arrow">
-              <Icon name="arrowUpRight" size={22} />
-            </span>
-          </a>
+            <span className="store-card__store">{s.store} · 출시 준비 중</span>
+          </div>
         ))}
       </div>
     </Section>

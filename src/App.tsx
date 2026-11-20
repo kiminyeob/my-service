@@ -13,7 +13,6 @@ import Steps from './components/sections/Steps';
 import AiAccordion from './components/sections/AiAccordion';
 import AskSection from './components/sections/AskSection';
 import Transparency from './components/sections/Transparency';
-import Testimonials from './components/sections/Testimonials';
 import Story from './components/sections/Story';
 import DownloadCta from './components/sections/DownloadCta';
 import Faq from './components/sections/Faq';
@@ -51,7 +50,7 @@ export default function App() {
           <AiAccordion />
           <AskSection />
           <Transparency />
-          <Testimonials />
+          {/* 후기 섹션(Testimonials)은 실제 후기가 생기면 다시 넣습니다 */}
           <Story />
           <DownloadCta />
           <Faq />

@@ -33,8 +33,8 @@ function Role() {
     <>
       <AppTop title="나와의 관련" />
       <div className="phone__body">
-        <div className="phone__chips">
-          {roles.slice(0, 4).map((r, i) => (
+        <div className="phone__chips phone__chips--row">
+          {roles.map((r, i) => (
             <span key={r} className={`phone-chip${i === 0 ? ' is-selected' : ''}`}>
               {r}
             </span>
@@ -145,7 +145,7 @@ function Schedule() {
       <AppTop title="알림 설정" />
       <div className="phone__body">
         <span className="phone__title">언제 받아 볼까요?</span>
-        <div className="phone__chips">
+        <div className="phone__chips phone__chips--days">
           {['월', '화', '수', '목', '금', '토', '일'].map((d) => (
             <span key={d} className={`phone-chip phone-chip--day${d === '월' ? ' is-selected' : ''}`}>
               {d}

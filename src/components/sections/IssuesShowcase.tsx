@@ -42,7 +42,6 @@ export default function IssuesShowcase() {
     <section id="issues" ref={ref} className="panel panel--navy showcase" data-nav="dark">
       <div className="showcase__bg" aria-hidden="true">
         <div className="showcase__photo" />
-        <span className="showcase__photo-note">사진 자리</span>
       </div>
 
       <div className="container showcase__inner">
@@ -60,7 +59,7 @@ export default function IssuesShowcase() {
           </div>
           <div data-reveal>
             <ButtonLink href="#download" variant="accent">
-              내 이슈 고르기 <Icon name="arrowRight" size={18} />
+              앱 받기 <Icon name="arrowRight" size={18} />
             </ButtonLink>
           </div>
         </div>

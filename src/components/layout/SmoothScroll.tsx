@@ -21,7 +21,7 @@ export function SmoothScroller() {
       const smoother = ScrollSmoother.create({
         wrapper: '#smooth-wrapper',
         content: '#smooth-content',
-        smooth: 1.1,
+        smooth: 0.55, // 휠을 멈춘 뒤 따라오는 시간(초). 크면 버튼이 손 밑에서 밀려나므로 짧게
         smoothTouch: 0.1,
         effects: true,
       });

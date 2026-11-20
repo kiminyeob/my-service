@@ -333,15 +333,4 @@ export const footerColumns = [
       { href: '#faq', label: '자주 묻는 질문' },
     ],
   },
-  {
-    title: '약관',
-    links: [
-      { href: '#top', label: '이용약관' },
-      { href: '#top', label: '개인정보 처리방침' },
-    ],
-  },
-  {
-    title: '문의',
-    links: [{ href: '#top', label: '[문의 이메일]' }],
-  },
 ];

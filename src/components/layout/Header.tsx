@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { features, languages, navLinks } from '../../data/content';
+import { features, navLinks } from '../../data/content';
 import { gsap, MOTION_OK, navOffset, ScrollSmoother, ScrollTrigger, useGSAP } from '../../lib/gsap';
 import { Brand, ButtonLink, Icon, LogoMark } from '../ui';
 import Modal from '../ui/Modal';
@@ -8,21 +8,18 @@ import Modal from '../ui/Modal';
  * 상단 고정 내비게이션
  * - 어두운 섹션(data-nav="dark") 위를 지나면 색이 바뀜
  * - "기능"에 호버/클릭하면 메가메뉴
- * - 언어 선택 드롭다운, 로그인 모달
+ * - 로그인 모달 (언어 선택은 영어 지원을 시작할 때 다시 추가)
  * - 태블릿/휴대폰: 햄버거 메뉴 열고 닫기 애니메이션
  */
 export default function Header() {
   const headerRef = useRef<HTMLElement>(null);
   const megaRef = useRef<HTMLDivElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
-  const langRef = useRef<HTMLDivElement>(null);
 
   const [dark, setDark] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [langOpen, setLangOpen] = useState(false);
-  const [lang, setLang] = useState('ko');
   const [loginOpen, setLoginOpen] = useState(false);
 
   /* 스크롤 위치에 따른 색 변경 */
@@ -109,11 +106,9 @@ export default function Header() {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return;
       setMegaOpen(false);
-      setLangOpen(false);
       setMenuOpen(false);
     };
     const onPointer = (e: PointerEvent) => {
-      if (langRef.current && !langRef.current.contains(e.target as Node)) setLangOpen(false);
       if (headerRef.current && !headerRef.current.contains(e.target as Node)) setMegaOpen(false);
     };
     document.addEventListener('keydown', onKey);
@@ -162,36 +157,6 @@ export default function Header() {
         </nav>
 
         <div className="nav__actions">
-          <div ref={langRef} className="lang">
-            <button
-              type="button"
-              className="nav__link lang__button"
-              aria-haspopup="listbox"
-              aria-expanded={langOpen}
-              aria-label={`언어 선택, 현재 ${languages.find((l) => l.code === lang)?.label}`}
-              onClick={() => setLangOpen((v) => !v)}
-            >
-              <Icon name="globe" size={18} />
-              <span>{lang.toUpperCase()}</span>
-              <Icon name="chevronDown" size={14} className="nav__chevron" />
-            </button>
-            <ul className={`lang__list${langOpen ? ' is-open' : ''}`} role="listbox" aria-label="언어">
-              {languages.map((l) => (
-                <li key={l.code} role="option" aria-selected={l.code === lang}>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setLang(l.code);
-                      setLangOpen(false);
-                    }}
-                  >
-                    {l.label}
-                    {l.code === lang && <Icon name="check" size={16} />}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
           <button type="button" className="nav__link nav__login" onClick={() => setLoginOpen(true)}>
             로그인
           </button>
@@ -224,7 +189,7 @@ export default function Header() {
           {features.map((f) => (
             <a
               key={f.key}
-              href="#features"
+              href="#feature-tabs"
               className="mega__card"
               onClick={() => {
                 window.dispatchEvent(new CustomEvent('select-feature', { detail: f.key }));
@@ -242,7 +207,7 @@ export default function Header() {
             </a>
           ))}
         </div>
-        <a href="#features" className="mega__all" onClick={closeAll} tabIndex={megaOpen ? 0 : -1}>
+        <a href="#feature-tabs" className="mega__all" onClick={closeAll} tabIndex={megaOpen ? 0 : -1}>
           기능 전체 보기 <Icon name="arrowRight" size={16} />
         </a>
       </div>
@@ -256,7 +221,7 @@ export default function Header() {
           {features.map((f) => (
             <a
               key={f.key}
-              href="#features"
+              href="#feature-tabs"
               className="drawer__feature"
               data-drawer-item
               onClick={() => {

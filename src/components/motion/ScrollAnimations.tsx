@@ -1,4 +1,4 @@
-import { gsap, MOTION_OK, navOffset, ScrollSmoother, ScrollTrigger, SplitText, useGSAP } from '../../lib/gsap';
+import { gsap, MOTION_OK, navOffset, ScrollSmoother, scrollState, ScrollTrigger, SplitText, useGSAP } from '../../lib/gsap';
 
 /**
  * 사이트 전체 스크롤 애니메이션 (렌더링 없음, App의 맨 뒤에 둠)
@@ -90,6 +90,8 @@ export default function ScrollAnimations() {
           return;
         }
         if (performance.now() - lastFocusAt < 1500) return;
+        // 메뉴 링크·단계 버튼으로 이동한 직후에는 그 위치를 존중
+        if (performance.now() - scrollState.lastProgrammatic < 1500) return;
         const smoother = ScrollSmoother.get();
         if (!smoother || smoother.paused()) return;
         // smoother.scrollTop()은 화면이 따라오는 중인 위치라 목표보다 뒤처져 있음 → 실제 목표 위치(window.scrollY)를 씀

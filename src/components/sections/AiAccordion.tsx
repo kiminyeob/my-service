@@ -68,9 +68,7 @@ export default function AiAccordion() {
 
         <div className="ai__grid">
           <div className="ai-visual" data-reveal>
-            <div className="ai-visual__photo" aria-hidden="true">
-              <span className="showcase__photo-note">사진 자리</span>
-            </div>
+            <div className="ai-visual__photo" aria-hidden="true" />
             <div className="ai-visual__stage">
               <div className="ai-ui" key={active ?? 'none'}>
                 {active === 'lens' && <LensUI />}
@@ -93,7 +91,7 @@ export default function AiAccordion() {
                     className="accordion__trigger"
                     aria-expanded={isOpen}
                     aria-controls={`ai-panel-${item.key}`}
-                    onClick={() => setOpen(isOpen ? -1 : i)}
+                    onClick={() => setOpen(i)} // 항상 한 항목은 열려 있게 (왼쪽 그림이 그 항목을 보여 줌)
                   >
                     <span className="accordion__num">{String(i + 1).padStart(2, '0')}</span>
                     <span className="accordion__title">{item.title}</span>
@@ -142,7 +140,7 @@ function LensUI() {
   const lens = roleLens[role];
   return (
     <>
-      <UiHead label="나와의 관련" />
+      <UiHead label="나와의 관련 · 직무 예시" />
       <div className="mini-chips" role="group" aria-label="직무 바꿔 보기">
         {roleLens.map((r, i) => (
           <button key={r.role} type="button" className={`mini-chip${i === role ? ' is-selected' : ''}`} aria-pressed={i === role} onClick={() => setRole(i)}>

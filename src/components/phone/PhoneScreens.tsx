@@ -147,7 +147,7 @@ export function BriefingHomeScreen() {
         </div>
         <div className="phone-issue">
           <span className="phone-issue__title">AI와 일자리</span>
-          <span className="phone-issue__desc">이번 주 변화 없음</span>
+          <span className="phone-issue__desc">지나가는 소식</span>
         </div>
       </div>
       <div className="phone__tabbar">

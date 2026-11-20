@@ -31,6 +31,8 @@ export default function Modal({ open, onClose, title, size = 'sm', tone = 'light
 
     if (open && !dialog.open) {
       dialog.showModal();
+      // 입력 칸이 있으면 바로 입력할 수 있게 그 칸에 초점 (없으면 브라우저 기본: 닫기 버튼)
+      dialog.querySelector<HTMLElement>('input, textarea, select')?.focus();
       lockScroll(true);
       gsap.fromTo(dialog, { opacity: 0 }, { opacity: 1, duration: 0.2 * d });
       gsap.fromTo(panel, { y: 28, scale: 0.97 }, { y: 0, scale: 1, duration: 0.35 * d, ease: 'power3.out' });

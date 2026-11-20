@@ -10,7 +10,8 @@
   z-index: 50;
   background: #ffffff;
   color: var(--color-navy);
-  transition: background-color 0.35s ease, color 0.35s ease, box-shadow 0.35s ease;
+  /* 색 전환이 길면 중간의 흐린 회색이 보이므로 짧게 */
+  transition: background-color 0.12s linear, color 0.12s linear, box-shadow 0.3s ease;
 }
 .nav.is-scrolled {
   box-shadow: 0 1px 0 var(--color-line), 0 8px 24px -16px rgba(24, 35, 63, 0.25);
@@ -308,7 +309,7 @@
    ========================================================= */
 
 .panel.hero {
-  padding: 72px 0 0;
+  padding: 96px 0 0;
 }
 .hero__grid {
   display: grid;
@@ -346,7 +347,7 @@
 
 .hero__visual {
   position: relative;
-  height: 600px;
+  height: 640px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -357,9 +358,10 @@
   border-radius: 50%;
   background: radial-gradient(circle, rgba(240, 165, 0, 0.28), rgba(240, 165, 0, 0) 65%);
 }
+/* 폰 전체가 띠 배너 위에 보이도록 (아래가 잘리지 않게) */
 .hero__phone {
   position: relative;
-  margin-bottom: -60px;
+  margin-bottom: 20px;
 }
 .hero__phone .phone {
   --phone-w: 300px;
@@ -371,12 +373,12 @@
 /* 폰(가운데) 바깥쪽에 두고 테두리에만 살짝 걸치게 — 상태바·화면 내용을 가리지 않음 */
 .hero__float--a {
   top: 30%;
-  left: -48px;
+  left: -84px;
   width: 210px;
 }
 .hero__float--b {
-  bottom: 16%;
-  right: -48px;
+  bottom: 18%;
+  right: -92px;
   width: 220px;
 }
 
@@ -420,9 +422,9 @@
   background: var(--color-amber);
   border-color: var(--color-amber);
 }
+/* 읽은 소식: 지운 것처럼 보이지 않게 취소선 없이 흐리게만 */
 .todo__item.is-done .todo__text {
   color: var(--color-muted);
-  text-decoration: line-through;
 }
 .issue-meter {
   display: flex;
@@ -461,10 +463,10 @@
   z-index: 3;
   color: var(--color-amber);
 }
+/* 카드·폰 글자 위에 얹히지 않는 빈 자리에만 */
 .hero__sparkle--1 { top: 6%; right: 18%; }
-.hero__sparkle--2 { top: 40%; left: 14%; color: var(--color-navy); }
-.hero__sparkle--3 { bottom: 34%; right: 6%; }
-.hero__sparkle--4 { top: 22%; right: 4%; color: var(--color-navy); }
+.hero__sparkle--2 { top: 16%; left: 6%; color: var(--color-navy); }
+.hero__sparkle--3 { top: 34%; right: 2%; }
 
 /* 근거 자료 띠 (수상 배지 자리) */
 .marquee {
@@ -746,10 +748,7 @@
   gap: 10px;
   transition: transform 0.35s var(--ease-out), box-shadow 0.35s ease;
 }
-.issue-slide:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 28px 48px -20px rgba(0, 0, 0, 0.5);
-}
+
 .issue-slide__num {
   font-size: 14px;
   font-weight: 700;
@@ -1163,7 +1162,7 @@
   box-shadow: 0 16px 32px -16px rgba(0, 0, 0, 0.6);
 }
 .bubble + .bubble {
-  margin-top: -6px;
+  margin-top: 18px; /* 기울어진 말풍선끼리 모서리가 겹치지 않게 */
 }
 .bubble--1 { transform: rotate(-3deg); align-self: flex-start; }
 .bubble--2 { transform: rotate(2deg); align-self: flex-end; background: rgba(240, 165, 0, 0.9); color: var(--color-navy); border-color: transparent; border-radius: 22px 22px 6px 22px; }
@@ -1415,11 +1414,7 @@
   gap: 6px;
   transition: background-color 0.35s ease, color 0.35s ease, transform 0.35s var(--ease-out);
 }
-.store-card:hover {
-  background: var(--color-navy);
-  color: #ffffff;
-  transform: translateY(-6px);
-}
+
 .store-card__icon {
   width: 56px;
   height: 56px;
@@ -1446,9 +1441,7 @@
   right: 28px;
   transition: transform 0.35s var(--ease-out);
 }
-.store-card:hover .store-card__arrow {
-  transform: translate(4px, -4px);
-}
+
 
 /* =========================================================
    FAQ
@@ -1641,10 +1634,15 @@
   }
 
   .panel.hero {
-    padding-top: 40px;
+    padding-top: 56px;
   }
   .hero__visual {
-    height: 500px;
+    height: 590px;
+  }
+  /* 휴대폰 화면에는 폰 양옆에 자리가 없어 떠 있는 카드는 숨김 (폰 화면을 가리지 않게) */
+  .hero__float,
+  .hero__sparkle {
+    display: none;
   }
   .hero__phone .phone {
     --phone-w: 272px;

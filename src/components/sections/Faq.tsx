@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { faqs } from '../../data/content';
-import { PlaceholderTag, Section } from '../ui';
+import { Section } from '../ui';
 import Collapse from '../ui/Collapse';
 
 /** 누르면 높이가 부드럽게 펼쳐지고 + 아이콘이 회전하는 아코디언. 다시 누르면 접힙니다. */
@@ -13,7 +13,8 @@ export default function Faq() {
         자주 묻는 질문
       </h2>
       <div className="faq">
-        {faqs.map((f, i) => {
+        {/* 아직 확정되지 않은 답(placeholder)은 공개 화면에서 숨김 */}
+        {faqs.filter((f) => !f.placeholder).map((f, i) => {
           const isOpen = open === i;
           return (
             <div key={f.q} className={`faq__item${isOpen ? ' is-open' : ''}`} data-reveal>
@@ -32,7 +33,6 @@ export default function Faq() {
               </button>
               <Collapse open={isOpen} id={`faq-${i}`}>
                 <div className="faq__a">
-                  {f.placeholder && <PlaceholderTag />}
                   <p className="body">{f.a}</p>
                 </div>
               </Collapse>
