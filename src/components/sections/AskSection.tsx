@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { differences, questions } from '../../data/content';
 import { gsap, MOTION_OK, useGSAP } from '../../lib/gsap';
+import { Brand } from '../ui';
 
 /**
  * 다크 섹션: "묻지 않아도 먼저 알려 줍니다"
@@ -82,11 +83,12 @@ export default function AskSection() {
             무엇을 물어야 할지 몰라도 괜찮습니다
           </h2>
           <p className="lead lead--light" data-reveal>
-            AI 챗봇은 질문을 해야 답을 줍니다. 틈틈은 무엇을 물어야 할지 모르는 단계에서도 필요한 소식을 먼저 전합니다.
+            AI 챗봇은 질문을 해야 답을 줍니다. <Brand />은 무엇을 물어야 할지 모르는 단계에서도 필요한 소식을 먼저
+            전합니다.
           </p>
         </div>
 
-        <ul className="bubbles" aria-label="틈틈이 먼저 답하는 질문의 예">
+        <ul className="bubbles" aria-label="틈틈은 이런 질문에 먼저 답합니다">
           {questions.map((q, i) => (
             <li key={q} className={`bubble bubble--${i + 1}`}>
               {q}

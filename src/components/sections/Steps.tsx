@@ -25,20 +25,29 @@ export default function Steps() {
 
 /* ---------- 넓은 화면: 고정 무대 ---------- */
 
-// 진행도 구간: 0~0.22 휴대폰 등장, 이후 세 단계를 나눠 진행
-const RISE_END = 0.22;
-const stepAt = (p: number) => (p < 0.5 ? 0 : p < 0.76 ? 1 : 2);
+// 고정 구간을 3등분해 단계를 넘김. 섹션 스냅(ScrollAnimations)은 고정 시작점과 2·3단계 구간 가운데에 맞춤.
+const stepAt = (p: number) => (p < 1 / 3 ? 0 : p < 2 / 3 ? 1 : 2);
 
 function StepsPinned() {
   const stageRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
-  const rise = easeOutCubic(clamp01(progress / RISE_END));
+  const [riseProgress, setRiseProgress] = useState(0);
+  const rise = easeOutCubic(clamp01(riseProgress));
   const active = stepAt(progress);
 
-  // 무대를 내비게이션 아래에 고정하고, 화면 높이의 2.2배를 스크롤하는 동안 진행도를 0 → 1로 넘깁니다.
-  // (ScrollSmoother 안에서는 CSS sticky가 동작하지 않아 ScrollTrigger pin을 씁니다)
   useGSAP(() => {
-    const st = ScrollTrigger.create({
+    // 1) 섹션이 화면에 들어오는 동안 휴대폰이 아래에서 떠오름 → 고정이 시작될 때는 이미 1단계 화면이 자리에 있음
+    const riseSt = ScrollTrigger.create({
+      trigger: stageRef.current,
+      start: 'top bottom',
+      end: () => `top top+=${navOffset()}`,
+      invalidateOnRefresh: true,
+      onUpdate: (self) => setRiseProgress(self.progress),
+    });
+    // 2) 무대를 내비게이션 아래에 고정하고, 화면 높이의 2.2배를 스크롤하는 동안 단계를 넘김
+    //    (ScrollSmoother 안에서는 CSS sticky가 동작하지 않아 ScrollTrigger pin을 씁니다)
+    const pinSt = ScrollTrigger.create({
+      id: 'steps-pin', // ScrollAnimations의 섹션 스냅이 단계 위치를 계산할 때 사용
       trigger: stageRef.current,
       start: () => `top top+=${navOffset()}`,
       end: () => `+=${window.innerHeight * 2.2}`,
@@ -47,7 +56,10 @@ function StepsPinned() {
       invalidateOnRefresh: true,
       onUpdate: (self) => setProgress(self.progress),
     });
-    return () => st.kill();
+    return () => {
+      riseSt.kill();
+      pinSt.kill();
+    };
   });
 
   const phoneStyle = {
@@ -89,7 +101,7 @@ function StepsPinned() {
                 ))}
               </ol>
               <div className="steps-pin__meter" aria-hidden="true">
-                <span style={{ transform: `scaleX(${clamp01((progress - RISE_END) / (1 - RISE_END))})` }} />
+                <span style={{ transform: `scaleX(${clamp01(progress)})` }} />
               </div>
               </div>
             </div>

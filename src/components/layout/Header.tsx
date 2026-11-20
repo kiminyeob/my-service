@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { features, languages, navLinks } from '../../data/content';
-import { gsap, MOTION_OK, ScrollSmoother, ScrollTrigger, useGSAP } from '../../lib/gsap';
-import { ButtonLink, Icon, LogoMark } from '../ui';
+import { gsap, MOTION_OK, navOffset, ScrollSmoother, ScrollTrigger, useGSAP } from '../../lib/gsap';
+import { Brand, ButtonLink, Icon, LogoMark } from '../ui';
 import Modal from '../ui/Modal';
 
 /**
@@ -28,11 +28,17 @@ export default function Header() {
   /* 스크롤 위치에 따른 색 변경 */
   useGSAP(() => {
     const active = new Set<ScrollTrigger>();
+    const panels = Array.from(document.querySelectorAll<HTMLElement>('.page .panel'));
     document.querySelectorAll<HTMLElement>('[data-nav="dark"]').forEach((section) =>
       ScrollTrigger.create({
         trigger: section,
-        start: 'top 40px',
-        end: 'bottom 40px',
+        start: () => `top ${navOffset() + 2}px`,
+        // 섹션 카드 쌓기로 어두운 섹션이 고정된 채 다음 카드에 덮이므로,
+        // 섹션 아랫변이 아니라 "다음 카드가 내비게이션 아래까지 덮었을 때" 원래 색으로 돌아옴
+        endTrigger: panels[panels.indexOf(section) + 1] ?? section,
+        // 스냅·링크 이동은 섹션을 내비게이션 바로 아래(navOffset)에 맞추므로 그 선을 기준으로 함
+        end: () => (panels[panels.indexOf(section) + 1] ? `top ${navOffset() + 2}px` : 'bottom 40px'),
+        invalidateOnRefresh: true,
         onToggle: (self) => {
           if (self.isActive) active.add(self);
           else active.delete(self);
@@ -290,7 +296,15 @@ export default function Header() {
         </div>
       </div>
 
-      <Modal open={loginOpen} onClose={() => setLoginOpen(false)} title="틈틈에 로그인">
+      <Modal
+        open={loginOpen}
+        onClose={() => setLoginOpen(false)}
+        title={
+          <>
+            <Brand />에 로그인
+          </>
+        }
+      >
         <form className="login" onSubmit={(e) => e.preventDefault()}>
           <p className="login__lead">가입할 때 쓴 이메일로 로그인 링크를 보내 드립니다.</p>
           <label className="field">

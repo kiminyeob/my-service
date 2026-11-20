@@ -5,7 +5,7 @@ import Icon from './Icon';
 type Props = {
   open: boolean;
   onClose: () => void;
-  title: string;
+  title: ReactNode;
   size?: 'sm' | 'lg';
   tone?: 'light' | 'dark';
   children: ReactNode;

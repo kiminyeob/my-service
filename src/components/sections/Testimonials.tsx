@@ -4,7 +4,7 @@ import { A11y } from 'swiper/modules';
 import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
 import { testimonials } from '../../data/content';
-import { Icon, PlaceholderTag, SectionHead } from '../ui';
+import { Brand, Icon, PlaceholderTag, SectionHead } from '../ui';
 import Modal from '../ui/Modal';
 
 /**
@@ -52,7 +52,9 @@ export default function Testimonials() {
                   <span className="testi-card__name">{t.name}</span>
                   <span className="testi-card__job">{t.meta}</span>
                 </span>
-                <span className="testi-card__months">틈틈과 함께한 지 {t.months}개월</span>
+                <span className="testi-card__months">
+                  <Brand />과 함께한 지 {t.months}개월
+                </span>
               </button>
             </SwiperSlide>
           ))}

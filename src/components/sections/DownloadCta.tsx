@@ -1,5 +1,5 @@
 import { maker } from '../../data/content';
-import { Icon, PlaceholderTag, Section } from '../ui';
+import { Icon, PlaceholderTag, Section, withBrand } from '../ui';
 
 const stores = [
   { icon: 'apple' as const, os: 'iPhone', store: 'App Store에서 받기' },
@@ -13,7 +13,7 @@ export default function DownloadCta() {
         <PlaceholderTag />
         <blockquote>“{maker.quote}”</blockquote>
         <figcaption>
-          {maker.name} · {maker.role}
+          {maker.name} · {withBrand(maker.role)}
         </figcaption>
       </figure>
 

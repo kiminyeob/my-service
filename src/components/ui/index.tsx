@@ -84,7 +84,7 @@ export function Section({ id, tone = 'white', narrow, navDark, className, innerC
 }
 
 type SectionHeadProps = {
-  eyebrow?: string;
+  eyebrow?: ReactNode;
   title: ReactNode;
   lead?: ReactNode;
   align?: 'start' | 'center';
@@ -138,3 +138,5 @@ export function Sparkle({ size = 18, className }: { size?: number; className?: s
     </svg>
   );
 }
+
+export { Brand, withBrand } from './Brand';

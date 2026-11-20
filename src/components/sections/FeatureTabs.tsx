@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { features } from '../../data/content';
 import { gsap, MOTION_OK, useGSAP } from '../../lib/gsap';
-import { ButtonLink, Icon, SectionHead } from '../ui';
+import { Brand, ButtonLink, Icon, SectionHead } from '../ui';
 import { PhoneFrame } from '../phone/PhoneScreens';
 import FeatureScreen from '../phone/FeatureScreens';
 
@@ -66,8 +66,16 @@ export default function FeatureTabs() {
     <section id="features" className="panel panel--white">
       <div className="container stack-40">
         <SectionHead
-          eyebrow="틈틈이 하는 일"
-          title="선별부터 출처 확인까지 틈틈이 대신합니다"
+          eyebrow={
+            <>
+              <Brand />의 기능
+            </>
+          }
+          title={
+            <>
+              선별부터 출처 확인까지, <Brand />에 맡기세요
+            </>
+          }
           lead="바빠서 소식을 따라가기 어려운 직장인을 위해, 고르고 설명하고 근거를 붙이는 일을 대신합니다."
         />
 

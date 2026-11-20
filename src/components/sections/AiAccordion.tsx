@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { aiItems, catchupItems, example, roleLens, type AiKey } from '../../data/content';
 import { gsap, MOTION_OK, prefersReducedMotion, useGSAP } from '../../lib/gsap';
-import { Badge, Icon, LogoMark, SectionHead } from '../ui';
+import { Badge, Brand, Icon, LogoMark, SectionHead } from '../ui';
 import Collapse from '../ui/Collapse';
 import PickRow from '../briefing/PickRow';
 
@@ -59,7 +59,11 @@ export default function AiAccordion() {
         <SectionHead
           eyebrow="브리핑이 만들어지는 방식"
           title={<span className="gradient-text">AI가 고르고, 설명하고, 근거를 붙입니다</span>}
-          lead="틈틈의 모든 브리핑은 근거를 함께 제공하고, 작성 과정을 공개합니다."
+          lead={
+            <>
+              <Brand />의 모든 브리핑은 근거를 함께 제공하고, 작성 과정을 공개합니다.
+            </>
+          }
         />
 
         <div className="ai__grid">

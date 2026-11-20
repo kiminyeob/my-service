@@ -1,4 +1,4 @@
-import { LogoMark, Section } from '../ui';
+import { Brand, LogoMark, Section } from '../ui';
 
 export default function Story() {
   return (
@@ -13,7 +13,7 @@ export default function Story() {
           브랜드 이야기
         </span>
         <h2 className="display" data-reveal>
-          틈틈이라는 이름
+          ‘<Brand />’이라는 이름
         </h2>
         <p className="story__text" data-reveal>
           “틈틈이”는 겨를이 있을 때마다라는 뜻입니다. 따로 시간을 내지 않아도 일과 사이의 짧은 틈에 AI의 흐름을 따라갈 수

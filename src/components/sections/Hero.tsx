@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { picked, sourceTypes } from '../../data/content';
 import { gsap, MOTION_OK, useGSAP } from '../../lib/gsap';
-import { ButtonLink, Icon, Sparkle } from '../ui';
+import { Brand, ButtonLink, Icon, Sparkle } from '../ui';
 import { BriefingHomeScreen, PhoneFrame } from '../phone/PhoneScreens';
 
 export default function Hero() {
@@ -35,7 +35,7 @@ export default function Hero() {
       <div className="container hero__grid">
         <div className="hero__copy">
           <span className="eyebrow" data-hero>
-            틈틈: AI 이슈 브리핑
+            <Brand />: AI 이슈 브리핑
           </span>
           <h1 className="hero__title" data-hero>
             쏟아지는 AI 소식 가운데 <em>내 업무에 필요한 것만</em> 골라 전합니다
