@@ -1,0 +1,62 @@
+:root {
+  /* color */
+  --color-navy: #18233f;
+  --color-navy-hover: #0e1630;
+  --color-amber: #f0a500;
+  --color-amber-hover: #ffb81f;
+  --color-amber-soft: #fff1cc;
+  --color-page: #e8ecf2;
+  --color-bg: #ffffff;
+  --color-surface: #f3f5f8;
+  --color-ink: #05070d;
+  --color-text: #18233f;
+  --color-muted: #4b5563;
+  --color-muted-on-dark: #c9d1e0;
+  --color-line: #e1e5ec;
+  --color-dash: #9aa3b5;
+  --color-track: #d5dae3;
+
+  /* gradient text: 파랑 → 청록 → 연두 */
+  --gradient-ai: linear-gradient(90deg, #2f5bd3 0%, #129c9c 50%, #6aa51f 100%);
+
+  /* type */
+  --font-sans: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+
+  /* radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-3xl: 24px;
+  --radius-panel: 32px;
+  --radius-pill: 999px;
+
+  /* layout */
+  --container: 1200px;
+  --container-narrow: 860px;
+  --gutter: 32px;
+  --section-y: 112px;
+  --page-gap: 12px;
+  --nav-h: 72px;
+
+  /* motion */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --gutter: 24px;
+    --section-y: 88px;
+  }
+}
+
+@media (max-width: 720px) {
+  :root {
+    --gutter: 20px;
+    --section-y: 64px;
+    --page-gap: 8px;
+    --radius-panel: 24px;
+    --nav-h: 64px;
+  }
+}
