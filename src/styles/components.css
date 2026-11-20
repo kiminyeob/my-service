@@ -1134,17 +1134,6 @@
   display: inline-flex;
 }
 
-/* 섹션 카드 쌓기: 다음 섹션이 덮어 올 때 아래 섹션을 살짝 어둡게 (--cover 는 ScrollAnimations에서 scrub) */
-.panel::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 20;
-  border-radius: inherit;
-  background: rgb(5 7 13 / var(--cover, 0));
-  pointer-events: none;
-}
-
 /* 문장 속 브랜드 이름 "틈틈" (Brand 컴포넌트) */
 .brand-word {
   font-weight: 700;

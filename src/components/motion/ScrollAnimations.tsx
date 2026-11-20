@@ -6,17 +6,16 @@ import { gsap, MOTION_OK, navOffset, ScrollSmoother, ScrollTrigger, SplitText, u
  * 1. 큰 제목(.display[data-reveal]) — 줄 단위로 마스크 안에서 밀려 올라오며 등장 (SplitText)
  *    그라디언트 글자가 들어 있는 제목은 줄로 쪼개면 그라디언트가 끊기므로 2번 방식으로 처리
  * 2. 나머지 [data-reveal] — opacity 0 → 1, y 30 → 0 으로 순차 등장
- * 3. 섹션 카드 쌓기 — 섹션을 다 읽으면 그 자리에 고정되고, 다음 섹션 카드가 위로 덮으며 올라옴.
- *    덮이는 섹션은 살짝 어두워짐 (--cover). 화면보다 긴 섹션은 끝까지 읽은 뒤(아랫변이 화면 아래에 닿을 때) 고정.
- * 4. 섹션 스냅 — 스크롤을 멈춘 곳이 섹션 시작점 가까이(화면 높이의 30% 이내)면 그 시작점에 맞춤.
- *    긴 섹션 중간에서 멈추면 그대로 둠. 세 단계 고정 무대 안에서는 단계마다 맞춤.
+ * 3. 섹션 카드 — 들어올 때 살짝 작은 상태에서 제 크기로 커짐 (scrub)
+ * 4. 섹션 스냅 — 자석처럼: 스크롤을 멈춘 곳이 섹션 시작점 가까이(화면 높이의 22% 이내)면 그 시작점으로
+ *    부드럽게 끌어당김. 그 밖(긴 섹션 중간 등)에서는 그대로 둠. 세 단계 고정 무대 안에서는 단계마다 맞춤.
  * 5. 상단 진행 막대 — 페이지를 얼마나 읽었는지 표시
  *
  * 각 섹션 고유의 애니메이션(히어로 등장, 숫자 카운트업, 세 단계 고정 무대, 패럴랙스 등)은 해당 컴포넌트에 있습니다.
  * data-speed / data-lag 패럴랙스는 ScrollSmoother(effects: true)가 처리합니다.
  */
 
-const SNAP_RANGE = 0.3; // 화면 높이 대비, 이 거리 안에서 멈추면 스냅
+const SNAP_RANGE = 0.22; // 화면 높이 대비, 이 거리 안에서 멈추면 스냅 (클수록 세게 붙음)
 const STEP_SNAPS = [0.5, 0.84]; // 세 단계 고정 무대 안: 2단계·3단계 구간의 가운데 (1단계는 고정 시작점 = 섹션 시작점)
 
 export default function ScrollAnimations() {
@@ -54,41 +53,19 @@ export default function ScrollAnimations() {
           gsap.to(batch, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.08, overwrite: true }),
       });
 
-      /* 3. 섹션 카드 쌓기 */
+      /* 3. 섹션 카드가 들어올 때 살짝 작은 상태에서 제 크기로 (히어로, 겹쳐 올라오는 카드, 세 단계, 푸터 제외) */
       const panels = gsap.utils.toArray<HTMLElement>('.page > .panel');
-      panels.forEach((panel, i) => gsap.set(panel, { zIndex: i + 1 })); // 뒤 섹션이 앞 섹션을 덮도록
-      panels.forEach((panel, i) => {
-        const next = panels[i + 1];
-        // 마지막 섹션, 그리고 자체 고정 무대가 있는 세 단계 섹션은 쌓기 고정에서 제외
-        if (!next || panel.classList.contains('steps-pin')) return;
-        const fitsScreen = () => panel.offsetHeight <= window.innerHeight - navOffset();
-        ScrollTrigger.create({
-          trigger: panel,
-          start: () => (fitsScreen() ? `top top+=${navOffset()}` : 'bottom bottom'),
-          endTrigger: next,
-          end: () => `top top+=${navOffset()}`,
-          pin: true,
-          pinSpacing: false,
-          invalidateOnRefresh: true,
+      gsap.utils
+        .toArray<HTMLElement>('.page > .panel:not(.hero):not(.panel--overlap):not(.steps-pin):not(.footer)')
+        .forEach((panel) => {
+          gsap.fromTo(
+            panel,
+            { scale: 0.94, transformOrigin: '50% 0%' },
+            { scale: 1, ease: 'none', scrollTrigger: { trigger: panel, start: 'top bottom', end: 'top 45%', scrub: true } },
+          );
         });
-        gsap.fromTo(
-          panel,
-          { '--cover': 0 },
-          {
-            '--cover': 0.38,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: next,
-              start: 'top bottom',
-              end: () => `top top+=${navOffset()}`,
-              scrub: true,
-              invalidateOnRefresh: true,
-            },
-          },
-        );
-      });
 
-      /* 4. 섹션 스냅 */
+      /* 4. 섹션 스냅 (자석처럼 살짝) */
       const sectionStarts = panels.map((panel) =>
         ScrollTrigger.create({ trigger: panel, start: () => `top top+=${navOffset()}`, invalidateOnRefresh: true }),
       );
